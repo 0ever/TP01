@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+>
+<h:head/>
+<h:body>
+    <h2>Students' university and course system</h2>
+    <h:link outcome="/index" value="Back"/>
+    <div>
+        <h3>Universities</h3>
+        <ol>
+            <ui:repeat value="#{myBatisUniversityController.allUniversities}" var="item">
+                <li>
+                    <h:outputLabel>ID: </h:outputLabel>
+                    <h:outputLabel value="${item.id}"/>
+                    <h:outputLabel> Name: </h:outputLabel>
+                    <h:outputLabel value="${item.name}"/>
+                </li>
+            </ui:repeat>
+        </ol>
+    </div>
+
+    <div>
+        <h4>Add university</h4>
+        <h:form id="university-form">
+            <h:panelGrid>
+                <h:outputLabel for="university_name">University name</h:outputLabel>
+                <h:inputText id="university_name" value="${myBatisUniversityController.universityToAdd.name}"/>
+                <h:outputLabel for="university_country">Country</h:outputLabel>
+                <h:inputText id="university_country" value="${myBatisUniversityController.universityToAdd.country}"/>
+                <h:outputLabel for="university_city">City</h:outputLabel>
+                <h:inputText id="university_city" value="${myBatisUniversityController.universityToAdd.city}"/>
+                <h:outputLabel for="university_rank">Rank</h:outputLabel>
+                <h:inputText id="university_rank" value="${myBatisUniversityController.universityToAdd.rank}"/>
+                <h:commandButton id="add-button" value="Add" action="#{myBatisUniversityController.addUniversity}"/>
+            </h:panelGrid>
+        </h:form>
+    </div>
+
+    <div>
+        <h4>Delete university</h4>
+        <h:form id="university-delete-form">
+            <h:panelGrid>
+                <h:outputLabel>University id:</h:outputLabel>
+                <h:inputText value="${myBatisUniversityController.universityToDeleteId}"/>
+                <h:commandButton value="Delete" action="#{myBatisUniversityController.deleteUniversity}"/>
+            </h:panelGrid>
+        </h:form>
+    </div>
+</h:body>
+</html>

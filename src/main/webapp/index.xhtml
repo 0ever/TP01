@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head/>
+
+<h:body>
+    <h2>Students' university and course system</h2>
+    <h:link outcome="mybatis/mybatis" value="MyBatis implementation"/>
+    <div>
+        <h3>Students</h3>
+        <ui:repeat value="#{studentController.students}" var="item">
+
+            <table border="1">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Address</th>
+                    <th>Phone number</th>
+                    <th>University</th>
+                    <th>Attending courses</th>
+                </tr>
+                </thead>
+                <tr>
+                    <td><h:outputText value="#{item.id}"/></td>
+                    <td><h:outputText value="#{item.fname}"/></td>
+                    <td><h:outputText value="#{item.lname}"/></td>
+                    <td><h:outputText value="#{item.address}"/></td>
+                    <td><h:outputText value="#{item.phoneNumber}"/></td>
+                    <td><h:outputText value="#{item.university.name}"/></td>
+                    <td><ui:repeat value="${item.attendingCourses}" var="course" varStatus="loop">
+                        #{course.courseName}#{not loop.last ? ', ' : ''}
+                    </ui:repeat></td>
+                </tr>
+            </table>
+        </ui:repeat>
+    </div>
+
+    <div>
+        <h:form id="student-form">
+            <h:panelGrid>
+                <h:outputLabel for="student_fname">First name</h:outputLabel>
+                <h:inputText id="student_fname" value="${studentController.student.fname}"/>
+                <h:outputLabel for="student_lname">Last name</h:outputLabel>
+                <h:inputText id="student_lname" value="${studentController.student.lname}"/>
+                <h:outputLabel for="student_address">Address</h:outputLabel>
+                <h:inputText id="student_address" value="${studentController.student.address}"/>
+                <h:outputLabel for="student_phoneNumber">Phone number</h:outputLabel>
+                <h:inputText id="student_phoneNumber" value="${studentController.student.phoneNumber}"/>
+                <h:outputLabel for="student_university">University</h:outputLabel>
+                <h:selectOneMenu id="student_university" value="#{studentController.universityId}">
+                    <f:selectItems value="#{universityController.allUniversities}" var="u"
+                                   itemLabel="#{u.name}" itemValue="#{u.id}"/>
+                </h:selectOneMenu>
+                <h:outputLabel for="student_attendingCourses">Attending courses</h:outputLabel>
+                <h:selectManyListbox id="student_attendingCourses" value="#{studentController.courseIds}">
+                    <f:selectItems value="#{courseController.allCourses}" var="c"
+                                   itemLabel="#{c.courseName}" itemValue="#{c.id}"/>
+                </h:selectManyListbox>
+                <h:commandButton id="add-student-button" value="Add" action="#{studentController.createStudent}"/>
+            </h:panelGrid>
+        </h:form>
+    </div>
+
+    <div>
+        <h3>Universities</h3>
+        <ui:repeat value="#{universityController.allUniversities}" var="item">
+
+            <table border="1">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th>City</th>
+                    <th>Rank</th>
+                    <th>Student IDs</th>
+                    <th>Course IDs</th>
+                </tr>
+                </thead>
+                <tr>
+                    <td><h:outputText value="#{item.id}"/></td>
+                    <td><h:outputText value="#{item.name}"/></td>
+                    <td><h:outputText value="#{item.country}"/></td>
+                    <td><h:outputText value="#{item.city}"/></td>
+                    <td><h:outputText value="#{item.rank}"/></td>
+                    <td><ui:repeat value="${item.studentSet}" var="student" varStatus="loop">
+                        #{student.id}#{not loop.last ? ', ' : ''}
+                    </ui:repeat></td>
+                    <td><ui:repeat value="${item.courseSet}" var="course" varStatus="loop">
+                        #{course.courseName}#{not loop.last ? ', ' : ''}
+                    </ui:repeat></td>
+                </tr>
+            </table>
+        </ui:repeat>
+    </div>
+    <div>
+        <h:form id="university-form">
+            <h:panelGrid>
+                <h:outputLabel for="university_name">Name</h:outputLabel>
+                <h:inputText id="university_name" value="${universityController.university.name}"/>
+                <h:outputLabel for="university_country">Country</h:outputLabel>
+                <h:inputText id="university_country" value="${universityController.university.country}"/>
+                <h:outputLabel for="university_city">City</h:outputLabel>
+                <h:inputText id="university_city" value="${universityController.university.city}"/>
+                <h:outputLabel for="university_rank">Rank</h:outputLabel>
+                <h:inputText id="university_rank" value="${universityController.university.rank}"/>
+                <h:commandButton id="add-university-button" value="Add" action="#{universityController.createUniversity}"/>
+            </h:panelGrid>
+        </h:form>
+    </div>
+
+    <div>
+        <h3>Courses</h3>
+        <ui:repeat value="#{courseController.allCourses}" var="item">
+
+            <table border="1">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Course title</th>
+                    <th>Credits</th>
+                    <th>Hours</th>
+                    <th>University</th>
+                    <th>Student IDs</th>
+                </tr>
+                </thead>
+                <tr>
+                    <td><h:outputText value="#{item.id}"/></td>
+                    <td><h:outputText value="#{item.courseName}"/></td>
+                    <td><h:outputText value="#{item.credits}"/></td>
+                    <td><h:outputText value="#{item.hours}"/></td>
+                    <td><h:outputText value="#{item.university.name}"/></td>
+                    <td><ui:repeat value="${item.studentSet}" var="student" varStatus="loop">
+                        #{student.id}#{not loop.last ? ', ' : ''}
+                    </ui:repeat></td>
+                </tr>
+            </table>
+        </ui:repeat>
+    </div>
+
+    <div>
+        <h:form id="course-form">
+            <h:panelGrid>
+                <h:outputLabel for="course_courseName">Course title</h:outputLabel>
+                <h:inputText id="course_courseName" value="${courseController.course.courseName}"/>
+                <h:outputLabel for="course_credits">Credits</h:outputLabel>
+                <h:inputText id="course_credits" value="${courseController.course.credits}"/>
+                <h:outputLabel for="course_hours">Hours</h:outputLabel>
+                <h:inputText id="course_hours" value="${courseController.course.hours}"/>
+                <h:outputLabel for="course_university">University</h:outputLabel>
+                <h:selectOneMenu id="course_university" value="#{courseController.universityId}">
+                    <f:selectItems value="#{universityController.allUniversities}" var="u"
+                                   itemLabel="#{u.name}" itemValue="#{u.id}"/>
+                </h:selectOneMenu>
+                <h:commandButton id="add-course-button" value="Add" action="#{courseController.createCourse}"/>
+            </h:panelGrid>
+        </h:form>
+    </div>
+
+
+        <div>
+            <h:form id="university-edit-form">
+                <h4>Edit university</h4>
+                <h:panelGrid>
+                    <h:outputLabel>University id:</h:outputLabel>
+                    <h:inputText value="${universityController.universityToEdit.id}"/>
+                    <h:outputLabel>University name:</h:outputLabel>
+                    <h:inputText value="${universityController.universityToEdit.name}"/>
+                    <h:commandButton value="Edit" action="#{universityController.updateUniversity}"/>
+                </h:panelGrid>
+            </h:form>
+        </div>
+
+    <div>
+        <h:form id="student-edit-form">
+            <h4>Edit student</h4>
+            <h:panelGrid>
+                <h:outputLabel>Student id:</h:outputLabel>
+                <h:inputText value="${studentController.studentToEdit.id}"/>
+                <h:outputLabel>First name</h:outputLabel>
+                <h:inputText value="${studentController.studentToEdit.fname}"/>
+                <h:outputLabel>Last name</h:outputLabel>
+                <h:inputText value="${studentController.studentToEdit.lname}"/>
+                <h:outputLabel>Address</h:outputLabel>
+                <h:inputText value="${studentController.studentToEdit.address}"/>
+                <h:outputLabel>Phone number</h:outputLabel>
+                <h:inputText value="${studentController.studentToEdit.phoneNumber}"/>
+                <h:commandButton  value="Edit" action="#{studentController.updateStudent}"/>
+            </h:panelGrid>
+        </h:form>
+    </div>
+</h:body>
+</html>
