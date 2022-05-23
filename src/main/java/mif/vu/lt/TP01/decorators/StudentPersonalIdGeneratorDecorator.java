@@ -18,10 +18,10 @@ public class StudentPersonalIdGeneratorDecorator implements IStudentPersonalIdGe
 
     @Override
     public String generateId(Student student) {
-        if (student.getPersonalId() != null) {
-            throw new IllegalArgumentException("Student already has an ID");
+        if (student.getPersonalId() == null || student.getPersonalId().isEmpty()) {
+            return studentPersonalIdGenerator.generateId(student);
         }
 
-        return studentPersonalIdGenerator.generateId(student);
+        throw new IllegalArgumentException("Student already has an ID");
     }
 }
