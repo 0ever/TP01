@@ -23,6 +23,7 @@
                     <th>Phone number</th>
                     <th>University</th>
                     <th>Attending courses</th>
+                    <th>Student's personal ID</th>
                 </tr>
                 </thead>
                 <tr>
@@ -35,6 +36,18 @@
                     <td><ui:repeat value="${item.attendingCourses}" var="course" varStatus="loop">
                         #{course.courseName}#{not loop.last ? ', ' : ''}
                     </ui:repeat></td>
+                    <td><h:outputText value="#{item.personalId}"/></td>
+                    <td>
+                        <h:form>
+                            <h:panelGroup rendered="#{generateStudentId.currentStudentId == item.id}">
+                                <h:outputText value="#{generateStudentId.loginGenerationStatus}" />
+                            </h:panelGroup>
+                            <h:commandButton value="Suggest student's personal ID" action="#{generateStudentId.generate()}"
+                                             disabled="#{generateStudentId.loginNameGeneratorRunning}">
+                                <f:param name="studentId" value="#{item.id}" />
+                            </h:commandButton>
+                        </h:form>
+                    </td>
                 </tr>
             </table>
         </ui:repeat>
@@ -61,9 +74,13 @@
                     <f:selectItems value="#{courseController.allCourses}" var="c"
                                    itemLabel="#{c.courseName}" itemValue="#{c.id}"/>
                 </h:selectManyListbox>
+                <h:outputLabel for="student_personalId">Student's personal id</h:outputLabel>
+                <h:inputText id="student_personalId" value="${studentController.student.personalId}"/>
                 <h:commandButton id="add-student-button" value="Add" action="#{studentController.createStudent}"/>
             </h:panelGrid>
         </h:form>
+
+
     </div>
 
     <div>
@@ -190,6 +207,8 @@
                 <h:inputText value="${studentController.studentToEdit.address}"/>
                 <h:outputLabel>Phone number</h:outputLabel>
                 <h:inputText value="${studentController.studentToEdit.phoneNumber}"/>
+                <h:outputLabel>Student's personal ID</h:outputLabel>
+                <h:inputText value="${studentController.studentToEdit.personalId}"/>
                 <h:commandButton  value="Edit" action="#{studentController.updateStudent}"/>
             </h:panelGrid>
         </h:form>

@@ -35,6 +35,9 @@ public class Student {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
+    @Column(name = "personalId")
+    private String personalId;
+
     @ManyToOne
     @JoinColumn(name= "university_id")
     private University university;

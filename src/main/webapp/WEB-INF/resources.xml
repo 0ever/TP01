@@ -4,9 +4,9 @@
     <!-- see http://tomee.apache.org/datasource-config.html -->
 
     <!-- H2 Database -->
-    <Resource id="TP01DataSource" type="DataSource">
+    <Resource id="TP01DataSource2" type="DataSource">
         JdbcDriver = org.h2.Driver
-        JdbcUrl = jdbc:h2:~/h2database/TP01DataSource;AUTO_SERVER=TRUE;
+        JdbcUrl = jdbc:h2:~/h2database/TP01DataSource2;AUTO_SERVER=TRUE;
         UserName = sa
         Password = sa
         InitialSize = 1

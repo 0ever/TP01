@@ -24,9 +24,7 @@ public class UniversityServiceImpl implements UniversityService {
     }
 
     public University getUniversityById(long id) {
-        TypedQuery<University> namedQuery = this.em.createNamedQuery("University.findById", University.class);
-        namedQuery.setParameter("id", id);
-        return namedQuery.getSingleResult();
+        return em.find(University.class, id);
     }
 
     public void updateUniversity(University university) {

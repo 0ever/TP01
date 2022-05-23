@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import mif.vu.lt.TP01.entities.Course;
 import mif.vu.lt.TP01.services.CourseServiceImpl;
-import mif.vu.lt.TP01.services.TimeConverter;
+import mif.vu.lt.TP01.services.ITimeConverter;
 
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -23,7 +23,7 @@ public class CourseController implements Serializable {
     private CourseServiceImpl courseService;
 
     @Inject
-    private TimeConverter timeConverter;
+    private ITimeConverter timeConverter;
 
     @Setter
     @Getter

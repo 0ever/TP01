@@ -10,8 +10,7 @@ import java.util.Objects;
 
 @Entity
 @NamedQueries({
-        @NamedQuery(name = "University.findAll", query = "select u from University u"),
-        @NamedQuery(name = "University.findById", query = "select u from University as u where u.id = :id")
+        @NamedQuery(name = "University.findAll", query = "select u from University u")
 })
 @Table
 @Getter
@@ -34,6 +33,10 @@ public class University {
 
     @Column(name = "rank", nullable = false)
     private int rank;
+
+    @Version
+    @Column(name = "OPT_LOCK_VERSION")
+    private int version;
 
     @OneToMany(mappedBy="university")
     private List<Student> studentSet;
